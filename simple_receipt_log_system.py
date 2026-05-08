@@ -87,11 +87,6 @@ def view_cart():
                 checkout()
         else:
             print("Invalid choice.")
-# If empty, show/say empty
-# Loop the cart_list[] to print the things added to the cart
-# Add the 'back' 
-# call the checkout() func if the user will pay already,
-# then use the return function to go back at entrance('main_menu()')
 
 """Receipt here use: "checkout()"""
 def checkout():
@@ -124,9 +119,7 @@ def checkout():
     print(f"Change {change:>42.2f}")
     print(LINE_DEC)
     cart_list.clear()
-# Display the receipt
-# Use the VAT_RATE
-# use the clear() func on the cart list to reset to 0
+
 
 def main_menu():
     """The entry point of the program"""
