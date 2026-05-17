@@ -1,0 +1,234 @@
+
+
+
+SET LINE_DEC to a string of 50 "=" characters
+SET VAT_RATE = 0.12
+SET VAT_TIN
+SET MIN
+SET SERIAL_NUMBER
+SET grocery_name = "Aisle Shop Here"
+CREATE an empty list named cart_list
+LET THE cash to 0
+
+
+CREATE INVENTORY as a 2D list
+    Each aisle contains:
+        aisle name,
+        list of items
+        each item contains:
+            item ID
+            item name
+            price
+
+
+
+FUNCTION show_aisle(aisle_data)
+
+    GET aisle name
+    GET list of items
+
+    LOOP forever
+        DISPLAY aisle header
+
+        FOR each item in aisle
+            COMPUTE vat_added_price =
+                item price × (1 + VAT_RATE)
+
+            DISPLAY item ID, item name,and VAT_added_price
+        END FOR
+
+        DISPLAY "Type 'back' to return to menu or 'cart' to view cart"
+
+        GET user input - choice
+        CONVERT input to lowercase
+        REMOVE all extra spaces
+
+        IF choice is "back"
+            RETURN to previous menu
+
+        ELSE IF choice is "cart"
+            CALL view_cart()
+
+        ELSE IF choice is an integer AND within item range i.e., 0 <choice <= number of items
+
+            FOR each item in items
+
+                IF choice matches item ID
+
+                    ASK user  - choice
+                        "Buy item? (Y/N)"
+			CONVERT input to uppercase
+               		REMOVE all extra spaces
+
+                    IF choice is "Y"
+
+                        ASK quantity in integers
+
+                        ADD item name, item price, quantity TO cart_list
+
+                        DISPLAY
+                            "Added to cart!"
+                    END IF
+
+                END IF
+
+            END FOR
+
+        ELSE
+            DISPLAY "Invalid choice."
+
+        END IF
+
+    END LOOP
+
+END FUNCTION
+
+
+
+
+
+FUNCTION view_cart()
+
+    COUNT total items in cart_list
+    Display LINE_DEC
+    DISPLAY cart header { --- Your Cart --- }
+
+    IF cart is empty
+        DISPLAY
+            "Your cart is empty."
+
+    ELSE
+	FOR every item in cart_list
+		DISPLAY Seq.No , Item Name X quantity
+        END FOR 
+	DISPLAY "Type 'back' to go to previous menu or 'pay' to buy items."
+    
+	GET user INPUT -choice 
+	CONVERT input to lowercase
+        REMOVE all extra spaces
+	IF choice is "back"
+            RETURN to previous menu
+	
+        ELSE IF choice is "pay"
+	     ASK user -choice
+                 "Buy item? (Y/N)"
+                  CONVERT input to uppercase
+                  REMOVE all extra spaces
+
+	     IF confirm is equal to "Y
+    		  ACCESS global variable cash
+		  ASK user to enter cash amount
+    		  STORE entered value in user_cash
+    		  SET cash = user_cash
+		  CALL checkout function
+    
+	     ELSE
+		  DISPLAY "Invalid choice."
+	     END ELSE
+
+	     END IF
+
+        END ELSE IF
+
+        END IF
+
+    END ELSE
+
+    END IF
+		
+END FUNCTION
+
+
+
+FUNCTION checkout()
+	DISPLAY LINE_DEC
+	DISPLAY grocery_name
+	DISPLAY VAT-REG-TIN 
+	DISPLAY MIN
+	DISPLAY S/N: {SN}
+	DISPLAY LINE_DEC
+
+	SET total_final_price as 0
+	SET total _quantity is 0
+	FOR each cart_item from 0 to length of cart_list - 1
+		GET item_name from cart_list
+    		GET item_price from cart_list
+    		GET item_quantity from cart_list
+
+    		COMPUTE vat_amount = item_price × VAT_RATE
+
+    		COMPUTE total_price = item_price + vat_amount
+
+		COMPUTE final_price = total_price × item_quantity
+
+    		ADD final_price to total_final_price
+
+    		ADD item_quantity to total_qty
+	
+	END FOR
+
+    	DISPLAY item name
+   	DISPLAY quantity X total price with 2 decimals ,final price with 2 decimals
+
+	
+	COMPUTE change = cash - total_final_price
+
+	DISPLAY line separator
+	DISPLAY total number of items
+	DISPLAY total final price
+	DISPLAY cash amount
+	DISPLAY change
+	DISPLAY line separator
+
+	CLEAR cart_list
+
+END FUNCTION 
+
+
+
+
+
+
+FUNCTION main_menu()
+	LOOP forever
+		DISPLAY LINE_DEC
+		DISPLAY 'Welcome to {grocery_name}
+		FOR each aisle from 0 to length of INVENTORY - 1
+			DISPLAY aisle no., aisle_name
+		END FOR
+		
+		DISPLAY Type 'cart' to view cart or 'exit' to quit.
+		GET user INPUT -choice 
+		CONVERT input to lowercase
+	        REMOVE all WHITE spaces
+
+		IF choice is 'exit' THEN
+			DISPLAY 'Thank you for choosing {grocery_nmae}, Come back again!'
+			BREAK/EXIT  LOOP
+
+		ELSE IF choice is 'cart' THEN 
+			CALL view_cart()
+		
+		ELSE IF choice is a number  AND within INVENTORY range THEN
+			CALL show_aisle(INVENTORY[choice -1]) - DIsPLAY menu
+			
+		ELSE 
+			DISPLAY 'Invalid choice.'	
+		 
+		END ELSE
+
+		END ELSE IF
+
+		END ELSE IF
+
+		END IF
+
+END FUNCTION
+
+
+
+
+
+
+
+
